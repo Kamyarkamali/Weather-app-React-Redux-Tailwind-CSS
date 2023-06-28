@@ -5,15 +5,20 @@ import { UilArrowUp,UilArrowDown,UilTemperature,UilTear,UilWind,UilSun,UilSunset
 
 function Detailse() {
   const weatherData = useSelector(state => state.wheterData.data);
+
+  if (!weatherData) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
         <div className='flex items-center justify-center py-6 text-xl text-cyan-300'>
-            <p>{weatherData.sys.country}</p>
+        <p>{weatherData.sys && weatherData.sys.country}</p>
         </div>
 
         <div className='flex flex-row items-center justify-between text-white py-3'>
             <img className='w-20' src="http://openweathermap.org/img/wn/01d@2x.png" alt="/" />
-            <p className='text-5xl'>{weatherData.main.humidity}</p>
+            {/* <p className='text-5xl'>{weatherData&&weatherData.main.humidity}</p> */}
+            <p className='text-5xl'>{weatherData.main && weatherData.main.humidity}</p>
 
             <div className='flex flex-col space-y-2'>
             <div className='flex font-light text-sm mr-3 items-center justify-center'>
