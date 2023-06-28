@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import { fecthWhather } from '../../Redux/fechuare/whatherSlice'
 
 ///icons
 import { UilSearch,UilLocationPoint } from '@iconscout/react-unicons'
@@ -7,34 +9,38 @@ import { UilSearch,UilLocationPoint } from '@iconscout/react-unicons'
 
 function Input() {
 
-//   const [city,setCity]=useState("")
-//   const [weatherData,setWeatherData]=useState(null)
+  const dispatch=useDispatch()
 
-//   const KEY="3e1d1194ea3cf297e78cc150dab88d61"
-
-// const BASE_URL="https://api.openweathermap.org/data/2.5/weather"
+  
 
 
-// const hendelSearch=async()=>{
-//   try{
-//     const response=await axios.get(`${BASE_URL}?q=${city}&appid=${KEY}`)
-//     setWeatherData(response.data)
-//   } catch(err){
-//     console.log("error");
-//   }
-// }
+  const [cityNames,setCityNames]=useState("")
+  
+  //Redux
+  const weatherData = useSelector((state) => state.wheterData.data);
 
-// console.log(weatherData);
-
+  const handelcityName=(e)=>{
+    dispatch(setCityNames(e.target.value))
+  }
+  const submitHandeler=(e)=>{
+    e.preventDefault()
+    dispatch(fecthWhather(cityNames))
+  }
   return (
     <div className='flex flex-row justify-center my-6'>
+      <form onSubmit={submitHandeler}>
+
         <div className='flex flex-row w-2/4 items-center justify-center space-x-4'>
-        <input onChange={(e)=>setCity(e.target.value)} type="text" className='text-xl outline-none font-light p-2 w-full shadow-xl' />
+
+        <input onChange={handelcityName} value={cityNames} type="text" className='text-xl outline-none font-light p-2 w-full shadow-xl' />
         </div> 
         <div className='flex items-center'>
+          <button type='submit'>
         <UilSearch className="text-white transition hover:scale-125 cursor-pointer" size={25}/>
+          </button>
         <UilLocationPoint className="text-white transition hover:scale-125 cursor-pointer" size={25}/>
         </div>
+      </form>
         
         <div className='flex flex-row w-1/4 items-center justify-center gap-1'>
             <button name='metric' className='text-xl text-white font-light'>°C</button>
